@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
-|--------------------------------------------------------------------------
+|------------ --------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
 | routes are loaded by the RouteServiceProvider within a group which
@@ -20,7 +20,12 @@ Route::get('/', function () {
 Route::middleware('auth')->group(function() {
     Route::get('/tweets', 'TweetController@index')->name('tweets.index');
     Route::post('/tweets', 'TweetController@store');
+
     Route::post('/profiles/{user:name}/follow', 'FollowController@store');
+    Route::get(
+        '/profiles/{user:name}/edit',
+        'ProfileController@edit'
+    )->middleware('can:edit,user');
 
 
 });
