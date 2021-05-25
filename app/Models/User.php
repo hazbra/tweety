@@ -68,4 +68,9 @@ class User extends Authenticatable
 
         return $append ? "{$path}/{$append}" : $path;
     }
+
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = bcrypt($value);
+    }
 }
