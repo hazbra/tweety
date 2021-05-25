@@ -17,22 +17,29 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware('auth')->group(function() {
+Route::middleware(      'auth')->group(function() {
     Route::get('/tweets', 'TweetController@index')->name('tweets.index');
     Route::post('/tweets', 'TweetController@store');
 
-    Route::post('/profiles/{user:username}/follow', 'FollowController@store');
+    Route::post(
+        '/profiles/{user:username}/follow',
+        'FollowController@store'
+    )->name('follow');
+
     Route::get(
         '/profiles/{user:username}/edit',
         'ProfileController@edit'
     )->middleware('can:edit,user');
 
-    Route::patch('/profiles/{user:username}', 'ProfileController@update');
+    Route::patch('/profiles/{user:username}', 'ProfileController@update'
+    )->middleware('can:edit,user');
 
+    Route::get('/explore', 'ExploreController@index');
 
 
 });
 
 Route::get('/profiles/{user:username}', 'ProfileController@show')->name('profile');
+
 
 Auth::routes();
